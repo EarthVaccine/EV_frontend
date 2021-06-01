@@ -2,11 +2,13 @@
 
 package com.example.earthvaccine
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
-import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +24,16 @@ class MainActivity : AppCompatActivity() {
                 return true
             }
         }
-        myWebView.loadUrl("http://earthvaccine.kro.kr/")
+
+        val networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this, Observer { isConnected ->
+            if(isConnected) {
+                myWebView.loadUrl("http://earthvaccine.kro.kr")
+            } else {
+                myWebView.loadUrl("file:///android_asset/index.html")
+            }
+        })
+
         myWebView.settings.javaScriptEnabled = true
         myWebView.settings.allowContentAccess = true
         myWebView.settings.domStorageEnabled = true

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+          overflow: hidden;
+        }
+
+
+        /* contaner style */
+        #container {
+          overflow: hidden;
+          width: 100vw;
+          height: 100vh;
+          display: flex;
+          position: relative;
+        }
+
+        .opacity {
+          opacity: 1;
+        }
+
+        /* main page style */
+        #main {
+          overflow: hidden;
+          width: 100%;
+          height: 100%;
+          background-color: #5E5E5E;
+          position: absolute;
+        }
+        #main .main_container {
+          width: 85%;
+          height: 333.5px;
+          position: absolute;
+          transform: translate(-50%, -50%);
+          top: 40%;
+          left: 50%;
+        }
+
+
+        /* parody page style */
+        #parody {
+          /* overflow: hidden; */
+          overflow-y: auto;
+          width: 100%;
+          height: 100%;
+          background-color: #1c1c1f;
+          position: absolute;
+        }
+
+
+        /* menu page style */
+        #menu {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          border-radius: 0 25px 25px 0;
+          background-color: rgba(23, 23, 23, 0.82);
+          padding: 5%;
+          box-sizing: border-box;
+        }
+
+
+        /* bottom slider style */
+        #bottom_slider {
+          background-color: rgba(31, 31, 31, 0.75);
+          border-radius: 25px 25px 0 0;
+          width: 100%;
+          height: 88.2%;
+          position: absolute;
+        }
+        #bottom_slider .sliderBar {
+          width: 80px;
+          height: 7px;
+          position: absolute;
+          background-color: rgba(255, 255, 255, 0.77);
+          border-radius: 25px;
+          border: 1px solid #707070;
+          box-sizing: border-box;
+          transform: translate(-50%, 0%);
+          top: 11px;
+          left: 50%;
+        }
+
+        #menu .m_guide_span {
+            color: white;
+            font-size: 25px;
+            font-weight: bold;
+            font-family: AppleSDGothicNeoL00;
+            margin-bottom: 10px;
+            display: block;
+        }
+        #menu > .custom_box {
+            width: 100%;
+            height: 80%;
+            border-radius: 10px;
+            background-color: rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            overflow-y: auto;
+        }
+        #menu .cbx {
+            width: 100%;
+            height: 50px;
+            border-top: 0.3px solid rgba(0, 0, 0, 0.15);
+            border-bottom: 0.3px solid rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            box-sizing: border-box;
+            transition: background-color 0.2s ease-in-out;
+        }
+        #menu .cbx.off {
+            background-color: rgba(100, 100, 100, 0.1);
+        }
+        #menu .cbx.on {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        #menu .checkspan {
+            color: white;
+            font-family: AppleSDGothicNeoL00;
+            font-size: 17px;
+        }
+        #menu .cbx input[type=checkbox] {
+            margin-right: 15px;
+        }
+        #donate {
+            width: 80%;
+            height: 50px;
+            background-color: black;
+            border-radius: 25px;
+            border: 1px solid rgba(150, 150, 150, 0.5);
+            font-size: 15px;
+            color: white;
+            font-family: AppleSDGothicNeoL00;
+            display: block;
+            margin: auto;
+            margin-top: 15px;
+        }
+
+        #location_nav {
+            width: 70px;
+            height: 5px;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            bottom: 11px;
+            left: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            z-index: 100;
+        }
+        #main_lo, #paro_lo {
+            width: 5px;
+            height: 5px;
+            border-radius: 25px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        #menu_lo {
+            width: 5px;
+            height: 5px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-direction: column;
+        }
+        #menu_lo .bar {
+            transition: background-color 0.2s ease;
+            width: 100%;
+            height: 1.5px;
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+        #menu_lo.a1 .bar {
+            transition: background-color 0.2s ease;
+            background-color: rgba(255, 255, 255, 1) !important;
+        }
+        #location_nav .a1:not(#menu_lo) {
+            transition: background-color 0.2s ease;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .slider_explain {
+            position: absolute;
+            transform: translate(-50%, 0);
+            left: 50%;
+            bottom: -50px;
+            width: 157px;
+            height: 50px;
+            /* display: none; */
+        }
+        .slider_explain > span {
+            text-align: center;
+            position: absolute;
+            bottom: 0;
+            transform: translate(-50%, 0);
+            left: 50%;
+            width: 100%;
+            font-size: 14px;
+            font-family: AppleSDGothicNeoL00;
+            color: #FFFFFF;
+        }
+        #_117 {
+            fill: transparent;
+            stroke: rgba(236,236,236,1);
+            stroke-width: 1px;
+            stroke-linejoin: miter;
+            stroke-linecap: butt;
+            stroke-miterlimit: 4;
+            shape-rendering: auto;
+        }
+        ._117 {
+            overflow: visible;
+            position: absolute;
+            width: 17.652px;
+            height: 15.366px;
+            left: 16.5px;
+            top: 0px;
+            transform: matrix(1,0,0,1,0,0);
+        }
+        #_1 {
+            position: absolute;
+            width: 33.5px;
+            height: 14.608px;
+            left: 61.25px;
+            top: 0px;
+            overflow: visible;
+        }
+        #_122 {
+            fill: transparent;
+            stroke: rgba(251,251,251,1);
+            stroke-width: 1px;
+            stroke-linejoin: miter;
+            stroke-linecap: butt;
+            stroke-miterlimit: 4;
+            shape-rendering: auto;
+        }
+        ._122 {
+            overflow: visible;
+            position: absolute;
+            width: 17.652px;
+            height: 15.366px;
+            left: 0px;
+            top: 0px;
+            transform: matrix(1,0,0,1,0,0);
+        }
+        #_2 {
+            position: absolute;
+            width: 33.5px;
+            height: 14.608px;
+            left: 61.25px;
+            top: 7.304px;
+            overflow: visible;
+        }
+        #_121 {
+            fill: transparent;
+            stroke: rgba(236,236,236,1);
+            stroke-width: 1px;
+            stroke-linejoin: miter;
+            stroke-linecap: butt;
+            stroke-miterlimit: 4;
+            shape-rendering: auto;
+        }
+        ._121 {
+            overflow: visible;
+            position: absolute;
+            width: 17.652px;
+            height: 15.366px;
+            left: 16.5px;
+            top: 0px;
+            transform: matrix(1,0,0,1,0,0);
+        }
+        #_125 {
+            fill: transparent;
+            stroke: rgba(251,251,251,1);
+            stroke-width: 1px;
+            stroke-linejoin: miter;
+            stroke-linecap: butt;
+            stroke-miterlimit: 4;
+            shape-rendering: auto;
+        }
+        ._125 {
+            overflow: visible;
+            position: absolute;
+            width: 17.652px;
+            height: 15.366px;
+            left: 0px;
+            top: 0px;
+            transform: matrix(1,0,0,1,0,0);
+        }
+        .slider_explain.off {
+            transition: all 0.5s ease-in-out;
+            bottom: -50px;
+        }
+        .slider_explain.on {
+            transition: all 0.5s ease-in-out;
+            bottom: 36px;
+        }
+
+        /* main animation */
+        #main.off {
+            transition: transform 0.2s ease;
+            transform: translateX(-100%) !important;
+        }
+        #main.on {
+            transition: transform 0.2s ease;
+            transform: translateX(0%) !important;
+        }
+
+        /* aprody animation */
+        #parody.on {
+            transition: transform 0.2s ease;
+            transform: translateX(0%) !important;
+        }
+        #parody.off {
+            transition: transform 0.2s ease;
+            transform: translateX(100%) !important;
+        }
+
+
+
+        /* menu animation */
+        #menu.on {
+            transition: transform 0.2s ease;
+            transform: translateX(0%) !important;
+        }
+        #menu.off {
+            transition: transform 0.2s ease;
+            transform: translateX(-100%) !important;
+        }
+
+
+        /* bottom slider animation */
+        #bottom_slider.off {
+            transition: transform 0.4s ease-in-out;
+            transform: translate(0%, 15%) translateY(100%) !important;
+        }
+        #bottom_slider.on {
+            transition: transform 0.4s ease-in-out;
+            transform: translate(0%, 15%) translateY(0%) !important;
+        }
+
+        .main_container > img {
+            position: absolute;
+        }
+        #anLeg {
+            bottom: 0;
+            transform: translate(-50%, -50%);
+            left: 50%;
+            width: 170px;
+        }
+        @keyframes turnAn {
+            0% {
+                transform: translate(-50%, 0%) rotate(30deg);
+            }
+            100% {
+                transform: translate(-50%, 0%) rotate(-30deg);
+            }
+        }
+        #anHead {
+            transform: translate(-50%, 0%);
+            transform-origin: 50% 90%;
+            left: 50%;
+            width: 220px;
+            animation: turnAn 3s ease-in-out infinite alternate;
+        }
+        .noInternetBox {
+            width: 300px;
+            height: 200px;
+            position: absolute;
+            transform: translate(-50%, -50%);
+            top: 75%;
+            left: 50%;
+        }
+        .noInternetBox > span {
+            color: white;
+            position: absolute;
+        }
+        .noInternetBox > .s1 {
+            font-size: 22px;
+            font-weight: bold;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            left: calc(50% - 70px);
+            top: calc(50% - 20px);
+        }
+        .noInternetBox > .s2 {
+            font-size: 20px;
+            transform: translate(-50%, -50%);
+            left: calc(50% - 30px);
+            top: calc(50% - 40px);
+        }
+        .noInternetBox > .s3 {
+            font-size: 21px;
+            transform: translate(-50%, -50%) rotate(90deg);
+            left: calc(50% + 10px);
+            top: calc(50% - 50px);
+        }
+        .noInternetBox > .s4 {
+            font-size: 30px;
+            font-weight: bold;
+            transform: translate(-50%, -50%);
+            left: calc(50% + 10px);
+            top: calc(50%);
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <div id="main" class="on">
+        <div class="main_container">
+            <img src="anntennahead.png" alt="" id="anHead">
+            <img src="anntennaleg.png" alt="" id="anLeg">
+        </div>
+        <div class="noInternetBox">
+            <span class="s1">인터넷에</span>
+            <span class="s2">연결</span>
+            <span class="s3">할 수</span>
+            <span class="s4">없습니다</span>
+        </div>
+        <!-- <span class="noInternet">인터넷에 연결 할 수 없습니다.</span> -->
+        <div class="slider_explain">
+            <span>위로 드래그해서 정보 확인</span>
+            <div id="_1">
+                <svg class="_117" viewBox="0 0 17 14.608">
+                    <path id="_117" d="M 17 14.60757446289063 L 0 0">
+                    </path>
+                </svg>
+                <svg class="_122" viewBox="0 0 17 14.608">
+                    <path id="_122" d="M 0 14.60757446289063 L 17 0">
+                    </path>
+                </svg>
+            </div>
+            <div id="_2">
+                <svg class="_121" viewBox="0 0 17 14.608">
+                    <path id="_121" d="M 17 14.60757446289063 L 0 0">
+                    </path>
+                </svg>
+                <svg class="_125" viewBox="0 0 17 14.608">
+                    <path id="_125" d="M 0 14.60757446289063 L 17 0">
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="parody" class="off">
+        <img src="ni2.png" alt="인터넷에 연결 할 수 없습니다." style="width: 80%; position: absolute; transform: translate(-50%, -50%); top: 50%; left: 50%;">
+    </div>
+
+    <div id="menu" class="off">
+        <span class="m_guide_span">인터넷 연결 안됨</span>
+        <div class="custom_box">
+            <img src="ni2.png" alt="인터넷에 연결 할 수 없습니다." style="width: 100%; height: 100%;"/>
+        </div>
+    </div>
+
+    <div id="bottom_slider" class="off">
+        <div class="sliderBar">
+        </div>
+    </div>
+</div>
+
+<div id="location_nav">
+    <div id="menu_lo">
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <div id="main_lo" class="a1"></div>
+    <div id="paro_lo"></div>
+</div>
+
+<script>
+        let menu_lo = document.getElementById("menu_lo");
+        let main_lo = document.getElementById("main_lo");
+        let paro_lo = document.getElementById("paro_lo");
+
+        let main_page = document.getElementById("main");
+        let parody_page = document.getElementById("parody");
+        let menu_page = document.getElementById("menu");
+
+        let slider_explain = document.querySelector(".slider_explain");
+
+        let bottom_slider = document.getElementById("bottom_slider");
+
+        let main_page_status = {
+            aInternal: true,
+            aListener: function(val) {},
+            set result(val) {
+                this.aInternal = val;
+                this.aListener(val);
+            },
+            get result() {
+                return this.aInternal;
+            },
+            registerListener: function(listener) {
+                this.aListener = listener;
+            }
+        };
+        main_page_status.registerListener(function(val) {
+            if(val === true) {
+                if(!main_page.classList.contains("on")) {
+                    main_page.classList.remove("on", "off");
+                    main_page.classList.add("on");
+                    main_lo.classList.remove("a1");
+                    paro_lo.classList.remove("a1");
+                    menu_lo.classList.remove("a1");
+                    main_lo.classList.add("a1");
+                }
+            } else if(val === false) {
+                main_page.classList.remove("on", "off");
+                main_page.classList.add("off");
+            }
+        });
+
+        let main_animation_page_status = {
+            aInternal: false,
+            aListener: function(val) {},
+            set result(val) {
+                this.aInternal = val;
+                this.aListener(val);
+            },
+            get result() {
+                return this.aInternal;
+            },
+            registerListener: function(listener) {
+                this.aListener = listener;
+            }
+        };
+        main_animation_page_status.registerListener(function(val) {
+            if(val === true) {
+                slider_explain.classList.remove("off", "on");
+                slider_explain.classList.add("on");
+            } else if(val === false) {
+                slider_explain.classList.remove("off", "on");
+                slider_explain.classList.add("off");
+            }
+        });
+
+        let parody_page_status = {
+            aInternal: false,
+            aListener: function(val) {},
+            set result(val) {
+                this.aInternal = val;
+                this.aListener(val);
+            },
+            get result() {
+                return this.aInternal;
+            },
+            registerListener: function(listener) {
+                this.aListener = listener;
+            }
+        };
+        parody_page_status.registerListener(function(val) {
+            if(val === true) {
+                if(!parody_page.classList.contains("on")) {
+                    parody_page.classList.remove("on", "off");
+                    parody_page.classList.add("on");
+                    main_lo.classList.remove("a1");
+                    paro_lo.classList.remove("a1");
+                    menu_lo.classList.remove("a1");
+                    paro_lo.classList.add("a1");
+                }
+            } else if(val === false) {
+                parody_page.classList.remove("on", "off");
+                parody_page.classList.add("off");
+            }
+        });
+
+        let menu_page_status = {
+            aInternal: false,
+            aListener: function(val) {},
+            set result(val) {
+                this.aInternal = val;
+                this.aListener(val);
+            },
+            get result() {
+                return this.aInternal;
+            },
+            registerListener: function(listener) {
+                this.aListener = listener;
+            }
+        };
+        menu_page_status.registerListener(function(val) {
+            if(val === true) {
+                if(!menu_page.classList.contains("on")) {
+                    menu_page.classList.remove("on", "off");
+                    menu_page.classList.add("on");
+                    main_lo.classList.remove("a1");
+                    paro_lo.classList.remove("a1");
+                    menu_lo.classList.remove("a1");
+                    menu_lo.classList.add("a1");
+                }
+            } else if(val === false) {
+                menu_page.classList.remove("on", "off");
+                menu_page.classList.add("off");
+            }
+        });
+
+
+        let bottom_slider_status = {
+            aInternal: false,
+            aListener: function(val) {},
+            set result(val) {
+                this.aInternal = val;
+                this.aListener(val);
+            },
+            get result() {
+                return this.aInternal;
+            },
+            registerListener: function(listener) {
+                this.aListener = listener;
+            }
+        };
+        bottom_slider_status.registerListener(function(val) {
+            if(val === true) {
+                if(!bottom_slider.classList.contains("on")) {
+                    bottom_slider.classList.remove("on", "off");
+                    bottom_slider.classList.add("on");
+                }
+            } else if(val === false) {
+                bottom_slider.classList.remove("on", "off");
+                bottom_slider.classList.add("off");
+            }
+        });
+
+        let startX, endX;
+        let x1, x2;
+
+        let startY, endY;
+        let y1, y2;
+
+
+        // main screen animation
+        main_page.addEventListener("touchstart", (e) => {
+            // if(e.target !== e.currentTarget) if(e.target.className == "main_container") return;
+            if(main_page_status.result && !menu_page_status.result) {
+                e.preventDefault();
+                startX = e.changedTouches[0].screenX;
+                x1 = e.changedTouches[0].pageX;
+                main_page.classList.remove("on", "off");
+                main_page.style.transform = "translateX(0%)";
+                menu_page.classList.remove("on", "off");
+                menu_page.style.transform = "translateX(-100%)";
+                parody_page.classList.remove("on", "off");
+                parody_page.style.transform = "translateX(100%)";
+                if(main_animation_page_status.result && !bottom_slider_status.result) {
+                    startY = e.changedTouches[0].screenY;
+                    y1 = e.changedTouches[0].pageY;
+                    bottom_slider.classList.remove("on", "off");
+                    bottom_slider.style.transform = "translate(0%, 15%) translateY(100%)";
+                }
+            }
+        });
+        main_page.addEventListener("touchmove", (e) => {
+            // if(e.target !== e.currentTarget) if(e.target.className == "main_container") return;
+            if(main_page_status.result) {
+                if(x1 - e.changedTouches[0].pageX < 0) {  // 메인페이지에서 왼쪽으로 넘기려 했을 때, 메인페이지는 가만히 있고 메뉴페이지만 이동.
+                    e.preventDefault();
+                    x2 = x1 - e.changedTouches[0].pageX;
+                    if(x2*-1 > window.innerWidth) {
+                        menu_page.style.transform = 'translateX(0%)';
+                        parody_page.style.transform = 'translateX(-100%)';
+                        menu_page.style.transform = 'translateX(0%)';
+                        return;
+                    }
+                    menu_page.style.transform = `translateX(calc(-100% + ${x2*-1}px))`;
+                    main_page.style.transform = 'translateX(0%)';
+                    parody_page.style.transform = 'translateX(100%)';
+                } else {  // 메인페이지를 오른쪽으로 넘기려 했을 때, 메인페이지와 페러디페이지가 같이 왼쪽으로 이동.
+                    x2 = x1 - e.changedTouches[0].pageX;
+                    if(x2 > window.innerWidth) {
+                        menu_page.style.transform = 'translateX(-100%)';
+                        parody_page.style.transform = 'translateX(0%)';
+                        menu_page.style.transform = 'translateX(-100%)';
+                        return;
+                    }
+                    main_page.style.transform = `translateX(calc(0% - ${x2}px))`;
+                    parody_page.style.transform = `translateX(calc(100% - ${x2}px))`;
+                    menu_page.style.transform = 'translateX(-100%)';
+                }
+                if(main_animation_page_status.result && !bottom_slider_status.result) {
+                    if(y1 - e.changedTouches[0].pageY > 0) {  // 메인페이지에서 화면을 위로 드래그 할 때, bottom slider 위로 애니메이션.
+                        main_page.style.transform = "translateX(0%)";
+                        menu_page.style.transform = "translateX(-100%)";
+                        parody_page.style.transform = "translateX(100%)";
+                        y2 = y1 - e.changedTouches[0].pageY;
+                        bottom_slider.style.transform = `translate(0%, 15%) translateY(calc(100% - ${y2}px))`;
+                        if(y2 > (window.innerHeight - window.innerHeight*0.15)) {  // bottom slider 높이가 최대치로 올라왔을 때 가만히.
+                            bottom_slider.style.transform = "translate(0%, 15%) translate(0%)";
+                        }
+                    } else { // 메인페이지에서 화면을 아래로 드래그 할 때, bottom slider 는 가만히.
+                        bottom_slider.style.transform = "translate(0%, 15%) translateY(100%)";
+                    }
+                }
+            }
+        });
+        main_page.addEventListener("touchend", (e) => {
+            // if(e.target !== e.currentTarget) if(e.target.className == "main_container") return;
+            if(main_page_status.result) {
+                endX = e.changedTouches[0].screenX;
+                if((endX - startX) > -30 && (endX - startX) < 30) {
+                    main_page_status.result = true;
+                    menu_page_status.result = false;
+                    parody_page_status.result = false;
+                    bottom_slider_status.result = false;
+                } else if((endX - startX) < -30) {
+                    main_page_status.result = false;
+                    menu_page_status.result = false;
+                    parody_page_status.result = true;
+                    bottom_slider_status.result = false;
+                } else if((endX - startX) > 30) {
+                    main_page_status.result = true;
+                    menu_page_status.result = true;
+                    parody_page_status.result = false;
+                    bottom_slider_status.result = false;
+                }
+                if(main_animation_page_status.result && !bottom_slider_status.result) {
+                    endY = e.changedTouches[0].screenY;
+                    if(((endY - startY) < 0 ? -1 * (endY - startY) : (endY - startY)) < ((endX - startX) < 0 ? -1 * (endX - startX) : (endX - startX))) return;
+                    if((endY - startY) < -30) {
+                        main_page_status.result = true;
+                        menu_page_status.result = false;
+                        parody_page_status.result = false;
+                        bottom_slider_status.result = true;
+                    } else {
+                        main_page_status.result = true;
+                        menu_page_status.result = false;
+                        parody_page_status.result = false;
+                        bottom_slider_status.result = false;
+                    }
+                }
+            }
+        });
+
+
+        // menu screen animation
+        menu_page.addEventListener("touchstart", (e) => {
+            if(menu_page_status.result) {
+                e.preventDefault();
+                startX = e.changedTouches[0].screenX;
+                x1 = e.changedTouches[0].pageX;
+                menu_page.classList.remove("on", "off");
+                menu_page.style.transform = "translateX(0%)";
+            }
+        });
+        menu_page.addEventListener("touchmove", (e) => {
+            if(menu_page_status.result) {
+                if(x1 - e.changedTouches[0].pageX < 0) {
+                    e.preventDefault();
+                    menu_page.style.transform = 'translateX(0%)';
+                } else {
+                    x2 = x1 - e.changedTouches[0].pageX;
+                    menu_page.style.transform = `translateX(calc(0% - ${x2}px))`;
+                }
+            }
+        });
+        menu_page.addEventListener("touchend", (e) => {
+            if(menu_page_status.result) {
+                endX = e.changedTouches[0].screenX;
+                if((endX - startX) > -30) {
+                    menu_page_status.result = true;
+                } else {
+                    main_page_status.result = false;
+                    main_page_status.result = true;
+                    menu_page_status.result = false;
+                    parody_page_status.result = false;
+                    bottom_slider_status.result = false;
+                }
+            }
+        });
+
+
+        // parody screen animation
+        parody_page.addEventListener("touchstart", (e) => {
+            startX = e.changedTouches[0].screenX;
+            x1 = e.changedTouches[0].pageX;
+            startY = e.changedTouches[0].screenY;
+            y1 = e.changedTouches[0].pageY;
+            if(e.target !== e.currentTarget) if(e.target.className == "form-control" || e.target.className == "mainService" || e.target.className.indexOf("service") != -1 || e.target.className.indexOf("Container") != -1) {
+                return;
+            }
+            if(parody_page_status.result) {
+                e.preventDefault();
+                startX = e.changedTouches[0].screenX;
+                x1 = e.changedTouches[0].pageX;
+                startY = e.changedTouches[0].screenY;
+                y1 = e.changedTouches[0].pageY;
+            }
+        });
+        let parody_page_move_x = false;
+        let parody_page_move_y = false;
+        parody_page.addEventListener("touchmove", (e) => {
+            if(e.target !== e.currentTarget) if(e.target.className == "form-control") return; // input에 드래그를 했을 때, 끝내기
+            if(parody_page_status.result) {
+                if((y1 - e.changedTouches[0].pageY > 5 || y1 - e.changedTouches[0].pageY < -5) && !parody_page_move_x) {  // 페러디 페이지에서 위나 아래로 스크롤 할 때.
+                    parody_page_move_y = true;
+                    return;
+                } else if(x1 - e.changedTouches[0].pageX < -5) {
+                    parody_page_move_x = true;
+                    parody_page.classList.remove("on", "off");
+                    main_page.classList.remove("on", "off");
+                    if(x1 - e.changedTouches[0].pageX > 0) {   // 페러디 화면에서 오른쪽으로 넘기려 했을 때 가만히.
+                        e.preventDefault();
+                        parody_page.style.transform = 'translateX(0%)';
+                        menu_page.style.transform = 'translateX(-100%)';
+                    } else {  // 페러디 화면에서 왼쪽으로 넘기려 했을 때.
+                        x2 = x1 - e.changedTouches[0].pageX;
+                        parody_page.style.transform = `translateX(calc(0% - ${x2}px))`;
+                        main_page.style.transform = `translateX(calc(-100% - ${x2}px))`;
+                    }
+                }
+            }
+        });
+        parody_page.addEventListener("touchend", (e) => {
+            if(e.target !== e.currentTarget) if(e.target.className == "form-control") return; // input에 드래그를 했을 때, 끝내기
+            if(parody_page_status.result) {
+                endX = e.changedTouches[0].screenX;
+                if((endX - startX) < 30) {
+                    if(parody_page_move_x) {
+                        parody_page_status.result = true;
+                        main_page_status.result = false;
+                    }
+                } else {
+                    if(!parody_page_move_y) {
+                        main_page_status.result = true;
+                        menu_page_status.result = false;
+                        parody_page_status.result = false;
+                        bottom_slider_status.result = false;
+                    }
+                }
+                parody_page_move_x = false;
+                parody_page_move_y = false;
+            }
+        });
+
+
+        // bottom screen animation
+        bottom_slider.addEventListener("touchstart", (e) => {
+            if(bottom_slider_status.result) {
+                e.preventDefault();
+                startY = e.changedTouches[0].screenY;
+                y1 = e.changedTouches[0].pageY;
+                bottom_slider.classList.remove("on", "off");
+                bottom_slider.style.transform = "translate(0%, 15%) translateY(0%)";
+            }
+        });
+        bottom_slider.addEventListener("touchmove", (e) => {
+            if(bottom_slider_status.result) {
+                if(y1 - e.changedTouches[0].pageY > 0) {
+                    e.preventDefault();
+                } else {
+                    y2 = y1 - e.changedTouches[0].pageY;
+                    bottom_slider.style.transform = `translate(0%, 15%) translateY(calc(0% - ${y2}px))`;
+                }
+            }
+        });
+        bottom_slider.addEventListener("touchend", (e) => {
+            if(bottom_slider_status.result) {
+                endY = e.changedTouches[0].screenY;
+                if((endY - startY) < 30) {
+                    bottom_slider_status.result = true;
+                } else {
+                    main_page_status.result = true;
+                    menu_page_status.result = false;
+                    parody_page_status.result = false;
+                    bottom_slider_status.result = false;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
